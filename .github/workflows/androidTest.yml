@@ -17,6 +17,7 @@ jobs:
       uses: actions/setup-java@v2
       with:
         java-version: '11'
+        distribution: 'adoptopenjdk'  # Specify the JDK distribution (e.g., 'adoptopenjdk', 'zulu', etc.)
 
     - name: Set up Android SDK
       uses: reactivecircus/android-emulator-runner@v2
