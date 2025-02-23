@@ -1,10 +1,3 @@
-name: iOS Emulator
-
-on:
-  push:
-    branches:
-      - main
-
 jobs:
   ios:
     runs-on: macos-latest
@@ -16,10 +9,27 @@ jobs:
     - name: Set up Xcode
       run: sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer  # Use the default Xcode
 
-    - name: Install dependencies
+    - name: Install Appium and dependencies
       run: |
+        # Install Homebrew (if not already installed)
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        
+        # Install CocoaPods (for iOS dependencies)
         brew install cocoapods
+        
+        # Install Appium globally using npm
+        npm install -g appium
+        
+        # (Optional) Install Appium Doctor to check if the setup is correct
+        npm install -g appium-doctor
+        appium-doctor --ios
+
+    - name: Install iOS dependencies (CocoaPods)
+      run: |
+        cd iOS  # Navigate to your iOS project folder (adjust if needed)
         pod install
 
-    - name: Run iOS tests
-      run: xcodebuild test -scheme YourScheme -destination 'platform=iOS Simulator,name=iPhone 12,OS=14.5'
+    - name: Run Appium tests
+      run: |
+        cd /path/to/your/java/appium/test  # Navigate to where your Maven project is located
+        mvn test -Dplatform=ios  # Run your Appium + Selenium tests using Maven
