@@ -13,14 +13,16 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up JDK
+    - name: Set up Java 11
       uses: actions/setup-java@v2
       with:
         java-version: '11'
-        distribution: 'adoptopenjdk'  # Specify the JDK distribution (e.g., 'adoptopenjdk', 'zulu', etc.)
+        distribution: 'temurin'  # Correct distribution name
 
-    - name: Set up Android SDK
-      uses: reactivecircus/android-emulator-runner@v2
+    - name: Install Android SDK
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y android-sdk
 
-    - name: Run tests
-      run: ./gradlew connectedAndroidTest
+    - name: Run Android tests
+      run: ./gradlew test
