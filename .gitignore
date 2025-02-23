@@ -1,0 +1,7 @@
+# Ignore Maven target directory
+target/
+# Ignore logs
+logs/
+*.log
+# Ignore environment-specific files
+*.env

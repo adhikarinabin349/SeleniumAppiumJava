@@ -40,16 +40,19 @@ SeleniumAppiumJava/
 ├── src/
 │   ├── main/
 │   │   └── java/
-│   └── test/
-│       └── java/
-│           ├── tests/
-│           ├── utils/
-│           └── config/
-├── pom.xml
-├── README.md
+│   │       ├── pages/          # Page Object Model (POM) classes
+│   │       ├── utils/          # Utility methods (reusable functions)
+│   │       ├── base/           # Base classes for setup and teardown
+│   ├── test/
+│   │   └── java/
+│   │       ├── tests/          # Test scripts
+│   │       ├── config/         # Configuration files
+├── pom.xml                     # Maven dependencies and configuration
+├── README.md                   # Documentation
+├── .gitignore                   # Git ignore file
 └── .github/
         └── workflows/
-                └── ci.yml
+                └── ci.yml      # GitHub Actions for CI/CD
 ```
 
 - `src/main/java/`: Contains the main Java code (if any).
@@ -99,3 +102,31 @@ public class SampleTest {
 GitHub Actions workflow file in `.github/workflows/ci.yml`:
 
 This workflow will run the tests on every push and pull request.
+
+## Installation
+- Verify Appium Installation appium -v (install appium:  npm install -g appium) - brew install node - to run use appium
+- Run Appium Doctor - to check missing dependencies - npm install -g appium-doctor - to run use appium-doctor
+- start appium server - appium
+- Install Appium Drivers (for Android & iOS)
+    - appium driver install uiautomator2
+    - appium driver install xcuitest
+- Install Dependencies 
+    - download Android Studio and Xcode
+    - brew install carthage
+- Verify Connected Devices
+    - adb devices (for Android) or
+    - idevice_id -l (for iOS)
+echo 'export ANDROID_HOME=$HOME/Library/Android/sdk' >> ~/.zshrc
+echo 'export PATH=$ANDROID_HOME/platform-tools:$PATH' >> ~/.zshrc
+source ~/.zshrc
+- Install libimobiledevice (for iOS)
+    - brew install libimobiledevice
+    - To check idevice_id -l
+- After all checks pass (Initialize Maven)
+    - mvn archetype:generate -DgroupId=com.example -DartifactId=SeleniumAppiumJava -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+- Update pom.xml with dependencies
+    - then run (npm clean install)
+- Also Install Chrome driver required
+- To run test mvn test -Dplatform=web or mvn test -Dplatform=ios or mvn test -Dplatform=android
+
+
