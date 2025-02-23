@@ -23,6 +23,32 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y android-sdk
+        # Install required SDK packages
+        yes | sdkmanager "platform-tools" "platforms;android-30" "build-tools;30.0.3" "emulator" "system-images;android-30;google_apis;x86_64"
+        # Accept licenses
+        yes | sdkmanager --licenses
 
-    - name: Run Android tests
-      run: ./gradlew test
+    - name: Install Appium and dependencies
+      run: |
+        # Install Node.js (required for Appium)
+        sudo apt-get install -y nodejs
+        sudo apt-get install -y npm
+        
+        # Install Appium globally
+        sudo npm install -g appium
+        # Optional: Check Appium setup
+        appium-doctor --android
+
+    - name: Start Android Emulator
+      run: |
+        # Start the Android emulator in the background
+        nohup emulator -avd test_avd -no-skin -no-audio -no-window &
+        # Wait for the emulator to start
+        adb wait-for-device
+        adb shell input keyevent 82  # Unlock the screen (optional)
+
+    - name: Run Android Appium tests
+      run: |
+        # Navigate to your Maven project
+        cd /path/to/your/java/appium/test  # Adjust the directory path to where your Maven project is
+        mvn test -Dplatform=android  # Run tests via Maven for the Android platform
